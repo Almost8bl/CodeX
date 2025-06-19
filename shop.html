@@ -105,6 +105,44 @@
                 mobileMenu.classList.toggle('open');
             });
         });
+
+// منع كليك يمين
+document.addEventListener('contextmenu', e => e.preventDefault());
+
+// منع اختصارات فحص العنصر
+document.addEventListener('keydown', function(e) {
+  if (
+    e.key === 'F12' ||                        // F12
+    (e.ctrlKey && e.shiftKey && e.key === 'I') || // Ctrl+Shift+I
+    (e.ctrlKey && e.shiftKey && e.key === 'C') || // Ctrl+Shift+C
+    (e.ctrlKey && e.shiftKey && e.key === 'J') || // Ctrl+Shift+J
+    (e.ctrlKey && e.key === 'U')             // Ctrl+U (عرض الكود)
+  ) {
+    e.preventDefault();
+  }
+});
+
+// تعطيل السحب أو التحديد
+document.addEventListener('selectstart', e => e.preventDefault());
+document.addEventListener('dragstart', e => e.preventDefault());
+
+// تعطيل console.log والتفتيش من الكونسول
+(function() {
+  const blocked = ['log', 'warn', 'debug', 'info', 'error'];
+  blocked.forEach(method => {
+    console[method] = function() {};
+  });
+})();
+
+// محاولة منع فتح أدوات المطور
+setInterval(() => {
+  const before = new Date();
+  debugger;
+  const after = new Date();
+  if (after - before > 100) {
+    window.location.href = "about:blank";
+  }
+}, 1000);
     </script>
 </head>
 <body class="antialiased">
@@ -248,44 +286,5 @@
 
         </div>
     </footer>
-<script>
-// منع كليك يمين
-document.addEventListener('contextmenu', e => e.preventDefault());
-
-// منع اختصارات فحص العنصر
-document.addEventListener('keydown', function(e) {
-  if (
-    e.key === 'F12' ||                        // F12
-    (e.ctrlKey && e.shiftKey && e.key === 'I') || // Ctrl+Shift+I
-    (e.ctrlKey && e.shiftKey && e.key === 'C') || // Ctrl+Shift+C
-    (e.ctrlKey && e.shiftKey && e.key === 'J') || // Ctrl+Shift+J
-    (e.ctrlKey && e.key === 'U')             // Ctrl+U (عرض الكود)
-  ) {
-    e.preventDefault();
-  }
-});
-
-// تعطيل السحب أو التحديد
-document.addEventListener('selectstart', e => e.preventDefault());
-document.addEventListener('dragstart', e => e.preventDefault());
-
-// تعطيل console.log والتفتيش من الكونسول
-(function() {
-  const blocked = ['log', 'warn', 'debug', 'info', 'error'];
-  blocked.forEach(method => {
-    console[method] = function() {};
-  });
-})();
-
-// محاولة منع فتح أدوات المطور
-setInterval(() => {
-  const before = new Date();
-  debugger;
-  const after = new Date();
-  if (after - before > 100) {
-    window.location.href = "about:blank";
-  }
-}, 1000);
-</script>
 </body>
 </html>
