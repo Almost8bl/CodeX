@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مركز الدعم الفني - Codex</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'cairo': ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        'light-beige': '#FDFBF5',
+                        'sky-blue': {
+                            'DEFAULT': '#38bdf8', // light sky blue
+                            'dark': '#0ea5e9',   // darker for hover
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* To apply the font globally (من الهيدر الأصلي) */
+        body {
+            font-family: 'cairo', sans-serif;
+            background-color: #FDFBF5; /* لون البيج الفاتح */
+            color: #1a1a1a; /* لون النص الأسود */
+            scroll-behavior: smooth;
+        }
+        /* A subtle background pattern for a richer feel (من الهيدر الأصلي) */
+        .hero-section {
+            background-color: #FDFBF5;
+            background-image:
+                radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.04) 1px, transparent 0);
+            background-size: 20px 20px;
+        }
+
+
+        /* --- CSS Variables (لتحكم سهل بالألوان) --- */
+        :root {
+            --primary-color: #0a7ea4;
+            --secondary-color: #08617f;
+            --background-color: #f8f9fa;
+            --card-background: #ffffff;
+            --text-color: #343a40;
+            --footer-bg-color: #111315;
+            --footer-text-color: #a0a0a0;
+            --light-gray-color: #e9ecef;
+            --bot-message-bg: #e9ecef;
+            --user-message-bg: #0a7ea4;
+            --user-message-color: #ffffff;
+            --header-font-size: 2.5rem;
+            --section-font-size: 1.8rem;
+            --base-font-size: 1rem;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+        }
+
+        /* --- Global Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* تم تحديث الـ body ليستخدم خط القاهرة والألوان الخاصة بـ Tailwind */
+        body {
+            font-family: 'cairo', sans-serif; /* استخدام الخط المحدد في Tailwind */
+            background-color: var(--background-color); /* يمكن تعديل هذا إذا كان Tailwind هو المتحكم الرئيسي */
+            color: var(--text-color); /* يمكن تعديل هذا إذا كان Tailwind هو المتحكم الرئيسي */
+            line-height: 1.7;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        main {
+            flex-grow: 1;
+        }
+
+        /* --- الشعار --- */
+        .codex-logo svg { width: 120px; height: 40px; }
+        .codex-logo text { font-family: 'Cairo', sans-serif; font-size: 40px; font-weight: 700; fill: var(--text-color); }
+        .codex-logo-small svg { width: 90px; height: 30px; }
+        .codex-logo-small text { font-family: 'Cairo', sans-serif; font-size: 40px; font-weight: 700; fill: var(--primary-color); }
+
+        /* --- Main Container --- */
+        .support-container { max-width: 900px; margin: 60px auto; padding: 0 20px; }
+
+        /* --- Header Section (Old - now removed, these styles are for the content inside main) --- */
+        /* .header-section { text-align: center; margin-bottom: 60px; } */
+        /* .header-section h1 { font-size: var(--header-font-size); color: var(--text-color); margin-bottom: 10px; font-weight: 700; } */
+        /* .header-section p { font-size: 1.1rem; color: #6c757d; max-width: 600px; margin: 0 auto; } */
+
+        /* --- FAQ Section --- */
+        .faq-section { background-color: var(--card-background); padding: 40px; border-radius: var(--border-radius); box-shadow: var(--box-shadow); }
+        .faq-section h2 { font-size: var(--section-font-size); margin-bottom: 30px; text-align: center; }
+        .faq-item { border-bottom: 1px solid var(--light-gray-color); }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-question { width: 100%; background: none; border: none; text-align: right; padding: 20px 0; font-family: 'Cairo', sans-serif; font-size: 1.1rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-color); transition: color 0.3s ease; }
+        .faq-question:hover { color: var(--primary-color); }
+        .faq-question::after { content: '\002B'; font-size: 1.2em; color: var(--primary-color); transition: transform 0.3s ease-in-out; margin-left: 15px; }
+        .faq-item.active .faq-question::after { transform: rotate(45deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out, padding 0.4s ease; color: #555; font-size: var(--base-font-size); padding: 0 20px; }
+        .faq-item.active .faq-answer { max-height: 300px; padding: 0px 20px 20px 20px; }
+
+        /* --- Chatbot --- */
+        .chat-toggle { position: fixed; bottom: 85px; left: 30px; width: 60px; height: 60px; background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); color: white; border-radius: 50%; border: none; display: flex; justify-content: center; align-items: center; font-size: 24px; cursor: pointer; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); z-index: 1000; transition: transform 0.3s ease; }
+        .chat-toggle:hover { transform: scale(1.1); }
+        .chat-toggle svg { width: 32px; height: 32px; fill: white; }
+        .chat-widget { position: fixed; bottom: 155px; left: 30px; width: 370px; max-width: 90vw; height: 70vh; max-height: 600px; background-color: var(--card-background); border-radius: var(--border-radius); box-shadow: var(--box-shadow); display: flex; flex-direction: column; overflow: hidden; z-index: 999; transform-origin: bottom left; transform: scale(0); opacity: 0; transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
+        .chat-widget.open { transform: scale(1); opacity: 1; }
+        .chat-header { padding: 15px 20px; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); color: white; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--light-gray-color); }
+        .chat-header .header-content { display: flex; align-items: center; gap: 10px; }
+        .chat-header h3 { margin: 0; font-size: 1.1rem; }
+        .chat-header .codex-logo-small svg text { fill: white; }
+        .chat-close-btn { background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
+        .chat-body { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        .chat-message { padding: 10px 15px; border-radius: 18px; max-width: 80%; line-height: 1.5; animation: fadeIn 0.3s ease; }
+        .bot-message { background-color: var(--bot-message-bg); color: var(--text-color); align-self: flex-start; border-bottom-left-radius: 4px; }
+        .user-message { background-color: var(--user-message-bg); color: var(--user-message-color); align-self: flex-end; border-bottom-right-radius: 4px; }
+        .typing-indicator { display: flex; align-items: center; padding: 10px 15px; }
+        .typing-indicator span { height: 8px; width: 8px; margin: 0 2px; background-color: #aaa; border-radius: 50%; display: inline-block; animation: bounce 1.4s infinite ease-in-out both; }
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
+
+        /* --- Chat Input Form --- */
+        #chat-input-form { display: flex; padding: 15px; border-top: 1px solid var(--light-gray-color); gap: 10px; }
+        #user-input { flex-grow: 1; border: 1px solid var(--light-gray-color); border-radius: 8px; padding: 10px; font-family: 'Cairo', sans-serif; font-size: 0.9rem; transition: border-color 0.3s ease; }
+        #user-input:focus { outline: none; border-color: var(--primary-color); }
+        #chat-input-form button { background-color: var(--primary-color); color: white; border: none; border-radius: 8px; padding: 10px 15px; font-family: 'Cairo', sans-serif; font-weight: 600; cursor: pointer; transition: background-color 0.3s ease; }
+        #chat-input-form button:hover { background-color: var(--secondary-color); }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- Footer (Old - most styles for the footer are now handled by Tailwind in the new footer) --- */
+        /* footer { background-color: var(--footer-bg-color); color: var(--footer-text-color); padding: 25px 0; font-size: 0.9rem; } */
+        /* .footer-container { max-width: 1200px; margin: 0 auto; padding: 0 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; } */
+        /* .footer-quote { flex-basis: 300px; text-align: right; } */
+        /* .footer-copyright { flex-basis: 300px; text-align: left; } */
+        /* .social-icons { display: flex; gap: 25px; justify-content: center; flex-grow: 1; } */
+        /* .social-icons a { color: var(--footer-text-color); transition: color 0.3s ease; } */
+        /* .social-icons a:hover { color: #ffffff; } */
+        /* .social-icons svg { width: 22px; height: 22px; fill: currentColor; } */
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            :root { --header-font-size: 2rem; --section-font-size: 1.5rem; }
+            .faq-section { padding: 20px; }
+            .chat-widget { left: 10px; right: 10px; bottom: 145px; width: auto; }
+            .chat-toggle { left: 20px; bottom: 80px; }
+            /* .footer-container { flex-direction: column; gap: 25px; } */
+            /* .footer-quote, .footer-copyright, .social-icons { flex-basis: auto; width: 100%; text-align: center; } */
+            /* .social-icons { order: -1; } */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-light-beige/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-gray-800 transition-transform hover:scale-105">Codex</a>
+
+            <nav class="hidden md:flex items-center space-x-8 space-x-reverse">
+                <a href="index.html" class="text-gray-600 hover:text-sky-blue transition">الرئيسية</a>
+                <a href="shop.html" class="text-gray-600 hover:text-sky-blue transition">منتجاتنا</a>
+                <a href="about.html" class="text-gray-600 hover:text-sky-blue transition">من نحن</a>
+                <a href="contact.html" class="text-gray-600 hover:text-sky-blue transition">تواصل معنا</a>
+            </nav>
+
+            <a href="support.html" class="hidden md:block bg-sky-blue text-white font-bold py-2 px-5 rounded-lg shadow-md hover:bg-sky-blue-dark transition-colors">
+                الدعم الفني
+            </a>
+
+            <button class="md:hidden text-gray-700 focus:outline-none">
+                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="support-container">
+        <section class="header-section">
+             <div class="codex-logo">
+                <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+                    <text x="0" y="30">Codex</text>
+                </svg>
+            </div>
+<h1 class="text-4xl font-bold text-gray-900">بوابتك إلى حلول Codex الذكية</h1>
+<p class="mt-4 text-lg text-gray-700 leading-relaxed">
+مرحباً بك في مركز الدعم المتقدم لشركة Codex — حيث التقنية تلتقي بالاحتراف. نحن هنا لنمنحك إجابات دقيقة، وسرعة استجابة، وتجربة دعم ترتقي لتطلعاتك. 
+<br><br>
+ إن أرضيناك فتحدث عنا، وإن لم نرضك فتحدث إلينا.
+</p>
+
+        </section>
+
+        <section class="faq-section">
+            <h2>الأسئلة الأكثر شيوعاً</h2>
+            <div class="faq-accordion">
+                <div class="faq-item">
+                    <button class="faq-question">كيف يمكنني الدفع؟</button>
+                    <div class="faq-answer">
+                        <p>نحن نقدم طرق دفع متعددة لتسهيل الأمر عليك. يمكنك الدفع عبر البطاقات الائتمانية (Visa, MasterCard)، التحويلات البنكية المباشرة، أو من خلال بوابات الدفع الإلكترونية الآمنة مثل PayPal و Stripe.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">ما المميزات التي تقدمونها؟</button>
+                    <div class="faq-answer">
+                        <p>في Codex، نتميز بتقديم حلول برمجية متكاملة تشمل: تصميم وتطوير مخصص، دعم فني على مدار الساعة، بنية تحتية قوية وقابلة للتطوير، بالإضافة إلى لوحات تحكم سهلة الاستخدام تمنحك السيطرة الكاملة على مشروعك.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">هل هناك ضمان على الخدمة؟</button>
+                    <div class="faq-answer">
+                        <p>بالتأكيد. جميع مشاريعنا تأتي مع فترة ضمان ودعم فني مجاني بعد التسليم لضمان عمل كل شيء بكفاءة. مدة الضمان تختلف حسب حجم وطبيعة المشروع ويتم تحديدها بوضوح في عقد الاتفاق.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">كيف يمكنني الانضمام للفريق البرمجي؟</button>
+                    <div class="faq-answer">
+                        <p>يسعدنا دائماً الترحيب بالمواهب الجديدة! يمكنك زيارة صفحة "الوظائف" على موقعنا الرسمي للاطلاع على الشواغر المتاحة وإرسال سيرتك الذاتية. نحن نبحث عن المبدعين والمتحمسين الذين يشاركوننا شغفنا بالتقنية.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">ما المدة اللازمة لتنفيذ المشروع؟</button>
+                    <div class="faq-answer">
+                        <p>تعتمد المدة الزمنية على حجم وتعقيد المشروع. بعد جلسة استشارية أولية لفهم متطلباتك بالكامل، سنقوم بتقديم خطة زمنية مفصلة. المشاريع الصغيرة قد تستغرق أسابيع قليلة، بينما المشاريع الكبيرة قد تمتد لعدة أشهر.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <button class="chat-toggle" id="chat-toggle-btn" aria-label="افتح المحادثة">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+    </button>
+
+    <div class="chat-widget" id="chat-widget">
+        <div class="chat-header">
+            <div class="header-content">
+               <div class="codex-logo-small">
+                    <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+                        <text x="0" y="30">Codex</text>
+                    </svg>
+                </div>
+                <h3>الدعم الذكي</h3>
+            </div>
+            <button class="chat-close-btn" id="chat-close-btn" aria-label="اغلق المحادثة">&times;</button>
+        </div>
+        <div class="chat-body" id="chat-body">
+               <div class="chat-message bot-message">
+                مرحباً بك في خدمة الدعم الذكي من Codex! كيف يمكنني خدمتك اليوم؟
+            </div>
+        </div>
+        <form id="chat-input-form">
+            <input type="text" id="user-input" placeholder="اطرح سؤالك هنا..." autocomplete="off" required>
+            <button type="submit" aria-label="إرسال">إرسال</button>
+        </form>
+    </div>
+
+    <footer class="bg-gray-950 text-white border-t border-gray-800">
+        <div class="container mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-center md:text-right">
+            
+            <div class="text-sm text-gray-400">
+                نحن في <span class="font-semibold text-white">Codex</span> نؤمن بأن التقنية يجب أن تكون بسيطة ومبهرة في آنٍ واحد.
+            </div>
+
+            <div class="flex justify-center md:justify-center space-x-6 rtl:space-x-reverse">
+                <a href="#" class="hover:text-sky-400 transition" aria-label="GitHub">
+                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 .5C5.373.5 0 5.873 0 12.5c0 5.292 3.438 9.787 8.205 11.387.6.111.82-.261.82-.579 0-.285-.01-1.04-.015-2.04-3.338.726-4.042-1.612-4.042-1.612-.546-1.385-1.333-1.754-1.333-1.754-1.09-.745.082-.73.082-.73 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.774.418-1.305.762-1.605-2.665-.305-5.466-1.332-5.466-5.93 0-1.31.469-2.38 1.236-3.22-.124-.305-.535-1.533.117-3.194 0 0 1.008-.323 3.3 1.23a11.52 11.52 0 013.003-.403 11.5 11.5 0 013.003.403c2.291-1.553 3.297-1.23 3.297-1.23.653 1.661.242 2.889.119 3.194.77.84 1.235 1.91 1.235 3.22 0 4.61-2.804 5.624-5.476 5.922.43.372.823 1.103.823 2.222 0 1.605-.015 2.898-.015 3.293 0 .32.216.694.825.577C20.565 22.284 24 17.79 24 12.5 24 5.873 18.627.5 12 .5z"/></svg>
+                </a>
+                <a href="https://discord.gg/QQAEpsnKZF" class="hover:text-sky-400 transition" aria-label="Discord">
+                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M20.317 4.369a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.078.037c-.211.375-.444.864-.608 1.249a18.365 18.365 0 00-5.493 0 12.06 12.06 0 00-.617-1.249.077.077 0 00-.078-.037 19.736 19.736 0 00-4.885 1.515.07.07 0 00-.033.027C.533 9.045-.32 13.579.099 18.057a.082.082 0 00.031.056 19.9 19.9 0 005.993 3.058.077.077 0 00.084-.027c.46-.63.873-1.295 1.226-1.989a.076.076 0 00-.041-.106 13.276 13.276 0 01-1.886-.902.077.077 0 01-.008-.127c.126-.094.252-.192.374-.291a.074.074 0 01.077-.01c3.928 1.795 8.18 1.795 12.061 0a.073.073 0 01.078.009c.123.099.248.198.375.292a.076.076 0 01-.006.127 12.387 12.387 0 01-1.887.901.076.076 0 00-.04.107c.36.693.773 1.358 1.225 1.988a.075.075 0 00.084.028 19.87 19.87 0 006.002-3.057.078.078 0 00.03-.057c.5-5.177-.838-9.673-3.548-13.66a.062.062 0 00-.03-.027zM8.02 15.331c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.175 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.175 1.094 2.157 2.418 0 1.334-.947 2.419-2.157 2.419z"/></svg>
+                </a>
+               <a href="#" class="hover:text-sky-400 transition" aria-label="X">
+             <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+               <path d="M21.543 3H17.7l-5.3 6.867L6.257 3H2l7.617 10.066L2 21h3.843l5.57-7.207L17.7 21H22l-7.905-10.34L21.543 3z"/>
+             </svg>
+           </a>
+
+            </div>
+
+            <div class="text-sm text-gray-500">
+                جميع الحقوق محفوظة © Codex 2025
+            </div>
+
+        </div>
+    </footer>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // --- FAQ Accordion Logic ---
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                const currentlyActive = document.querySelector('.faq-item.active');
+                if (currentlyActive && currentlyActive !== item) {
+                    currentlyActive.classList.remove('active');
+                }
+                item.classList.toggle('active');
+            });
+        });
+
+        // --- Chatbot "AI" Logic ---
+        const chatToggleBtn = document.getElementById('chat-toggle-btn');
+        const chatCloseBtn = document.getElementById('chat-close-btn');
+        const chatWidget = document.getElementById('chat-widget');
+        const chatBody = document.getElementById('chat-body');
+        const chatInputForm = document.getElementById('chat-input-form');
+        const userInputField = document.getElementById('user-input');
+        // const chatSuggestions = document.getElementById('chat-suggestions'); // Removed as suggestions logic is not in focus now
+
+        // --- "AI" Knowledge Base ---
+        const knowledgeBase = [
+            // --- التحيات والوداع ---
+            {
+                topic: 'greeting',
+                keywords: ['مرحبا', 'أهلا', 'السلام عليكم', 'هاي', 'hello', 'كيف حالك', 'صباح الخير', 'مساء الخير', 'اهلين'],
+                patterns: [
+                    /(مرحباً|أهلاً|السلام عليكم|هاي|hello|اهلين)\s*(!|\.)*$/i,
+                    /(كيف حالك|كيف الأمور|شلونك|شو اخبارك)\s*(\?)*$/i,
+                    /(صباح الخير|مساء الخير|ليلة سعيدة)\s*(!|\.)*$/i
+                ],
+                getResponse: () => {
+                    const responses = [
+                        'أهلاً بك في خدمة دعم Codex. كيف يمكنني مساعدتك اليوم؟',
+                        'مرحباً بك! أنا مساعدك الافتراضي من Codex. ما هو استفسارك؟',
+                        'يا هلا! يسعدنا تواصلكم مع مركز دعم Codex. كيف يمكننا خدمتك اليوم؟'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            },
+            {
+                topic: 'thanks',
+                keywords: ['شكرا', 'مشكور', 'تسلم', 'جزاك الله خير', 'الف شكر', 'مقدر لك', 'شكرا جزيلا', 'متشكر'],
+                patterns: [
+                    /(شكراً|مشكور|تسلم)\s*(يا|لك)*\s*(جزيلاً)*(!|\.)*$/i,
+                    /(جزاك الله خير|ألف شكر|مقدر لك)\s*(!|\.)*$/i
+                ],
+                getResponse: () => {
+                    const responses = [
+                        'العفو! يسعدني خدمتك. هل لديك أي استفسارات أخرى؟',
+                        'على الرحب والسعة! لا تتردد في طرح المزيد من الأسئلة.',
+                        'نحن هنا لمساعدتك دائماً. هل هناك أي شيء آخر يمكنني تقديمه؟'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            },
+            {
+                topic: 'farewell',
+                keywords: ['مع السلامة', 'إلى اللقاء', 'باي', 'وداعا', 'أراك لاحقا', 'سلام'],
+                patterns: [
+                    /(مع السلامة|إلى اللقاء|باي|وداعاً|سلام)\s*(!|\.)*$/i,
+                    /أراك لاحقاً\s*(!|\.)*$/i
+                ],
+                getResponse: () => {
+                    const responses = [
+                        'مع السلامة! نتمنى لك يوماً سعيداً.',
+                        'إلى اللقاء! لا تتردد في التواصل معنا مجدداً إذا احتجت للمساعدة.',
+                        'وداعاً! شكراً لتواصلك مع Codex.'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            },
+
+            // --- الدفع والأسعار (معلومات دقيقة مقدمة منك) ---
+            {
+                topic: 'payment_methods',
+                keywords: ['دفع', 'ادفع', 'بطاقة', 'فيزا', 'ماستركارد', 'باي بال', 'paypal', 'stripe', 'طرق الدفع', 'كيف ادفع', 'بكام', 'فودافون كاش', 'كريدت ديسكورد'],
+                patterns: [
+                    /(ما هي|ماهي|كيف|طرق) (الدفع|أدفع|تسديد) (المتاحة|الموجودة|لديك|لديكم|عندكم)/i,
+                    /هل تقبلون (فيزا|ماستركارد|باي بال|بطاقات ائتمانية|فودافون كاش|كريدت ديسكورد)/i,
+                    /(أريد|أبغي) أن (أدفع|أسدد|احاسب)/i,
+                    /كيف (يمكنني|أقدر) (الدفع|ادفع)/i
+                ],
+                getResponse: () => {
+                    const responses = [
+                        'نقدم طرق دفع متنوعة لتسهيل معاملاتكم، تشمل فودافون كاش، باي بال، وكريدت ديسكورد. جميع عمليات الدفع آمنة وموثوقة.',
+                        'يمكنك الدفع لدينا باستخدام فودافون كاش، باي بال، أو كريدت ديسكورد. نسعى لتوفير خيارات مرنة لعملائنا.',
+                        'لدينا عدة خيارات للدفع تناسب احتياجاتك وهي: فودافون كاش، باي بال، وكريدت ديسكورد. أي طريقة تفضل؟'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            },
+            {
+                topic: 'project_cost_estimate',
+                keywords: ['تكلفة', 'سعر', 'كم يكلف', 'كم السعر', 'كم التكلفة', 'باقات', 'خطط', 'سعر المشروع', 'عرض سعر', 'ثمن', 'بكم'],
+                patterns: [
+                    /(كم (يكلف|سعر)|ماهي تكلفة|بكم) (المشروع|الخدمة|المنتج)\s*(\?)*$/i,
+                    /(أريد|معرفة|تفاصيل عن) الأسعار\s*(!|\.)*$/i,
+                    /هل لديكم (باقات|خطط أسعار|عروض)/i,
+                    /كيف أحصل على عرض سعر (مفصل)*\s*(\?)*$/i
+                ],
+                getResponse: () => {
+                    const responses = [
+                        'تعتمد أسعارنا على نطاق المشروع ومدى تعقيده. للحصول على تقدير دقيق للتكلفة، يرجى تزويدنا بتفاصيل متطلباتك وسيقوم فريقنا بإعداد عرض سعر مخصص لك.',
+                        'لا توجد باقات أسعار ثابتة لدينا، فكل مشروع فريد. نحدد التكلفة بناءً على المتطلبات الفنية والزمنية. يمكننا تقديم عرض سعر مفصل بعد مناقشة احتياجاتك.',
+                        'يمكننا تزويدك بعرض سعر تفصيلي بعد فهم كامل لمشروعك. التكلفة تختلف حسب حجم العمل والتقنيات المستخدمة.'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            },
+
+            // --- مميزات وخدمات الشركة (معلومات دقيقة مقدمة منك) ---
+            {
+                topic: 'core_services',
+                keywords: ['مميزات', 'خدمات', 'تقدموا', 'تقدمون', 'خاصية', 'ميزة', 'ماذا تفعلون', 'مجالات عملكم', 'حلول', 'نقدم', 'ماذا تقدمون', 'منتجاتكم', 'تطوير', 'مواقع ويب', 'بوتات ديسكورد', 'تطبيقات هاتف', 'شبكات امن سيبراني'],
+                patterns: [
+                    /(ما هي|ماهي) (خدماتكم|مميزاتكم|الحلول التي تقدمونها)\s*(\?)*$/i,
+                    /(ماذا تفعلون|ما مجال عملكم|ما تخصصكم)\s*(\?)*$/i,
+                    /هل تقومون ب(تطوير|تصميم) (المواقع|التطبيقات|بوتات ديسكورد|شبكات امن سيبراني)\s*(\?)*$/i,
+                    /هل تدعمون (بناء مواقع|بوتات ديسكورد|تطبيقات هاتف|شبكات امن سيبراني)/i
+                ],
+                getResponse: () => {
+                    const responses = [
+                        'نحن في Codex متخصصون في بناء مواقع الويب، بوتات الديسكورد، تطبيقات الهاتف، وتطوير شبكات الأمن السيبراني المتطورة. نقدم حلولًا برمجية متكاملة تلبي احتياجاتك.',
+                        'خدماتنا في Codex تشمل تصميم وتطوير مواقع الويب، بناء بوتات الديسكورد المخصصة، إنشاء تطبيقات الهاتف الذكية، وتوفير حلول الأمن السيبراني المتقدمة لحماية بياناتك.',
+                        'في Codex، نقدم مجموعة واسعة من الخدمات البرمجية المتطورة: بناء مواقع الويب الاحترافية، تطوير بوتات الديسكورد، تصميم تطبيقات الهاتف، وتأمين شبكاتك بحلول الأمن السيبراني الحديثة.'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            },
+            {
+                topic: 'custom_development',
+                keywords: ['تطوير مخصص', 'برنامج خاص', 'موقع حسب الطلب', 'تطبيق فريد', 'حلول مخصصة', 'احتياجات خاصة', 'تفصيل', 'تصميم خاص', 'حلول معقدة'],
+                patterns: [
+                    /هل تقدمون (حلولاً|تطويراً) مخصصاً (لي|لشركتي)*\s*(\?)*$/i,
+                    /أريد برنامجاً (خاصاً|مفصلاً|فريداً) لي\s*(!|\.)*$/i,
+                    /هل يمكنكم تصميم موقع حسب (الطلب|احتياجاتي)\s*(\?)*$/i,
+                    /(هل تستطيعون|هل تقدرون) بناء (حلول|تطبيقات) مخصصة ومعقدة/i
+                ],
+                getResponse: () => {
+                    const responses = [
+                        'نعم، نحن متخصصون في التطوير المخصص لتلبية متطلبات عملك الفريدة بدقة. تبدأ العملية بجلسة استشارية لفهم كل تفاصيل مشروعك.',
+                        'بالتأكيد، في Codex نقدم حلولاً برمجية مخصصة بالكامل. نصمم ونطور البرامج والتطبيقات التي تناسب احتياجاتك المحددة، مهما كانت معقدة.',
+                        'إذا كانت لديك فكرة أو متطلبات خاصة، فإننا نقدم خدمات تطوير مخصصة تضمن لك الحصول على الحل البرمجي الأمثل الذي يناسب رؤيتك تمامًا.'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            },
+
+            // --- الضمان والدعم ---
+            {
+                topic: 'warranty_and_support',
+                keywords: ['ضمان', 'أمان', 'صيانة', 'دعم فني', 'بعد البيع', 'مشكلة', 'خطأ', 'خلل', 'دعم', 'مساعدة', 'مشاكل'],
+                patterns: [
+                    /هل لديكم (ضمان|دعم فني) بعد (التسليم|البيع|انتهاء المشروع)\s*(\?)*$/i,
+                    /ماذا عن (صيانة|أمان) المشاريع بعد التسليم\s*(\?)*$/i,
+                    /كيف أحصل على دعم فني (في حال وجود مشكلة)*\s*(\?)*$/i,
+                    /أواجه مشكلة (تقنية|في الموقع|في التطبيق)\s*(!|\.)*$/i
+                ],
+                getResponse: () => {
+                    const responses = [
+                        'بالتأكيد، جميع مشاريعنا تأتي مع فترة ضمان ودعم فني مجاني بعد التسليم لضمان كفاءة العمل. كما نوفر عقود صيانة مستمرة.',
+                        'نقدم دعماً فنياً شاملاً وضماناً على مشاريعنا بعد التسليم. هدفنا هو استمرارية عمل نظامك بأفضل شكل ممكن وحل أي مشكلات قد تطرأ بسرعة.',
+                        'نحن نؤمن بأهمية الدعم المستمر، لذا نقدم ضماناً وصيانة بعد إطلاق المشروع. لأي مشكلة، يرجى التواصل مع فريق الدعم لدينا وسنكون سعداء بمساعدتك.'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            },
+            {
+                topic: 'maintenance_services',
+                keywords: ['صيانة', 'تحديث', 'تطوير مستمر', 'دعم بعد الاطلاق', 'حماية', 'أمن', 'ترقية', 'تطوير'],
+                patterns: [
+                    /هل تقدمون خدمات صيانة (للمشاريع)*\s*(\?)*$/i,
+                    /هل هناك عقود (صيانة|دعم) بعد المشروع\s*(\?)*$/i,
+                    /كيف يتم (تحديث|تطوير|ترقية) الأنظمة لديكم\s*(\?)*$/i
+                ],
+                getResponse: () => {
+                    const responses = [
+                        'نقدم حزم صيانة ودعم مستمرة لضمان بقاء مشاريعك البرمجية محدثة وآمنة وفعالة. يشمل ذلك التحديثات الدورية ومراقبة الأداء.',
+                        'للحفاظ على أداء نظامك وحمايته، نوفر عقود صيانة مرنة تتضمن التحديثات الأمنية وإضافة الميزات الجديدة حسب الحاجة.',
+                        'بعد إطلاق المشروع، نواصل تقديم الدعم والصيانة لضمان تحديث وترقية أنظمتك بشكل مستمر لتحقيق أفضل أداء ممكن.'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            },
+
+            // --- التوظيف والانضمام للفريق ---
+            {
+                topic: 'join_team',
+                keywords: ['انضم', 'فريق', 'وظيفة', 'توظيف', 'مبرمج', 'عمل', 'شغل', 'مهندس', 'مصمم', 'شاغر', 'وظائف', 'سيرة ذاتية', 'انضمام'],
+                patterns: [
+                    /كيف يمكنني (الانضمام لفريقكم|التقدم لوظيفة|العمل معكم)\s*(\?)*$/i,
+                    /هل لديكم (شواغر|وظائف) متاحة (حالياً)*\s*(\?)*$/i,
+                    /أبحث عن عمل ك(مبرمج|مصمم|مهندس برمجيات)\s*(!|\.)*$/i,
+                    /أين أرسل سيرتي الذاتية\s*(\?)*$/i
+                ],
+                getResponse: () => {
+                    const responses = [
+                        'يسعدنا دائماً الترحيب بالمواهب الجديدة! يمكنك زيارة صفحة الوظائف على موقعنا الرسمي للاطلاع على الشواغر المتاحة وإرسال سيرتك الذاتية.',
+                        'إذا كنت تبحث عن فرصة للانضمام إلى فريق عمل مبدع ومتحمس، يرجى مراجعة قسم الوظائف على موقعنا لتقديم طلبك.',
+                        'نحن نبحث باستمرار عن الكفاءات للانضمام إلى فريق Codex. تفضل بزيارة صفحتنا المخصصة للوظائف لمعرفة المزيد عن الفرص المتاحة وكيفية التقديم.'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            },
+
+            // --- مدة المشروع ---
+            {
+                topic: 'project_duration',
+                keywords: ['مدة', 'وقت', 'متى', 'يخلص', 'ينتهي', 'مشروع', 'كم يستغرق', 'جدول زمني', 'تسليم', 'كم ياخذ'],
+                patterns: [
+                    /(كم (تستغرق|مدة)|كم ياخذ|متى ينتهي) (المشروع|تطوير التطبيق|بناء الموقع)\s*(\?)*$/i,
+                    /ما هو الجدول الزمني المتوقع للمشروع\s*(\?)*$/i,
+                    /متى يمكن (تسليم|الانتهاء من) المشروع\s*(\?)*$/i
+                ],
+                getResponse: () => {
+                    const responses = [
+                        'تعتمد المدة الزمنية لتسليم المشروع على حجم وتعقيده. بعد جلسة استشارية أولية لفهم متطلباتك، سنقدم لك خطة زمنية مفصلة ومواعيد تسليم واضحة.',
+                        'لا يمكن تحديد مدة ثابتة للمشاريع دون معرفة تفاصيلها. المشاريع الصغيرة قد تستغرق أسابيع قليلة، بينما المشاريع الكبيرة قد تمتد لعدة أشهر. سنوضح لك كل ذلك في عرضنا.',
+                        'لتحديد المدة التقديرية لمشروعك بدقة، نحتاج إلى فهم شامل لمتطلباته. يرجى تزويدنا بالتفاصيل وسنقدم لك جدولاً زمنياً واقعياً.'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            },
+
+            // --- معلومات عامة عن الشركة ---
+            {
+                topic: 'about_us',
+                keywords: ['عنكم', 'من أنتم', 'تاريخ', 'قصة', 'رؤية', 'رسالة', 'قيم', 'من نحن', 'مقركم', 'اين انتم', 'نبذه'],
+                patterns: [
+                    /(من أنتم|عن شركتكم|ما هي Codex|نبذة عنكم)\s*(\?)*$/i,
+                    /(ما هي|ماهي) (رؤيتكم|رسالتكم|قيمكم)\s*(\?)*$/i,
+                    /أين يقع (مقركم|مكتبكم)\s*(\?)*$/i
+                ],
+                getResponse: () => {
+                    const responses = [
+                        'Codex هي شركة رائدة في تطوير الحلول البرمجية المبتكرة. تأسست بهدف تمكين الشركات من تحقيق أهدافها الرقمية، ونقدم حلولاً متكاملة في مجالات متعددة.',
+                        'نحن فريق من المطورين والمصممين والخبراء التقنيين الشغوفين، ملتزمون بتقديم أعلى مستويات الجودة والابتكار لعملائنا. يقع مكتبنا الرئيسي في 6th of October City، Giza Governorate، Egypt.',
+                        'رؤيتنا في Codex هي أن نكون الشريك التقني الموثوق به لعملائنا في رحلة التحول الرقمي، من خلال تقديم حلول برمجية قوية وفعالة.'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            },
+
+            // --- التواصل ---
+            {
+                topic: 'contact_info',
+                keywords: ['تواصل', 'رقم', 'ايميل', 'عنوان', 'موقع', 'تلفون', 'اتصل', 'مكتب', 'هاتف', 'طرق التواصل'],
+                patterns: [
+                    /كيف يمكنني (التواصل معكم|الاتصال بكم)\s*(\?)*$/i,
+                    /(ما هو|ماهو) (رقم هاتفكم|عنوان بريدكم الإلكتروني|ايميلكم)\s*(\?)*$/i,
+                    /أين أجد (مكتبكم|مقركم)\s*(\?)*$/i,
+                    /(أريد|أبغي) (التواصل|أتكلم) مع (شخص|الدعم الفني)\s*(!|\.)*$/i
+                ],
+                getResponse: () => {
+                    const responses = [
+                        'يمكنك التواصل معنا عبر البريد الإلكتروني info@codex.com أو الاتصال بنا على الرقم +2010XXXXXXXX. مكتبنا يقع في 6th of October City، Giza Governorate، Egypt.',
+                        'للتواصل المباشر، يرجى استخدام بريدنا الإلكتروني info@codex.com أو الاتصال برقم الهاتف +2010XXXXXXXX. نحن متاحون لمساعدتك.',
+                        'إذا كنت بحاجة إلى التحدث مع أحد ممثلينا، يمكنك مراسلتنا على info@codex.com أو الاتصال على +2010XXXXXXXX. نسعد بخدمتك.'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            },
+
+            // --- طلب استشارة ---
+            {
+                topic: 'initial_consultation',
+                keywords: ['استشارة', 'مقابلة', 'اجتماع', 'تحدث', 'نقاش', 'كيف نبدأ', 'ابدأ مشروع', 'حجز موعد', 'استفسار'],
+                patterns: [
+                    /أريد (استشارة|مقابلة|اجتماع) لبدء مشروع\s*(!|\.)*$/i,
+                    /كيف يمكنني (حجز موعد|التحدث) مع فريقكم\s*(\?)*$/i,
+                    /أريد أن أناقش فكرة مشروع (لدي|معكم)*\s*(!|\.)*$/i,
+                    /كيف نبدأ المشروع (معكم)*\s*(\?)*$/i
+                ],
+                getResponse: () => {
+                    const responses = [
+                        'البداية بسيطة! يمكنك حجز استشارة مجانية معنا لمناقشة فكرتك ومتطلبات مشروعك. سنقوم بتقييم احتياجاتك وتقديم أفضل الحلول الممكنة.',
+                        'للبدء في مشروعك، نقترح عليك تحديد موعد لاستشارة أولية. خلال هذه الجلسة، سنتفهم رؤيتك ونقدم لك الخطوات التالية.',
+                        'نرحب دائماً بمناقشة الأفكار الجديدة. احجز موعداً لاستشارة مجانية وسيقوم فريقنا بمساعدتك في بلورة مشروعك.'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            },
+
+            // --- معرض الأعمال ---
+            {
+                topic: 'portfolio',
+                keywords: ['أعمال سابقة', 'معرض أعمال', 'مشاريع', 'سابقة', 'أمثلة', 'portfolio', 'شغلكم', 'أعمالكم'],
+                patterns: [
+                    /هل يمكنني رؤية (أعمالكم السابقة|معرض أعمالكم|مشاريعكم|شغلكم)\s*(\?)*$/i,
+                    /أين أجد (أمثلة على شغلكم|مشاريع سابقة)\s*(\?)*$/i
+                ],
+                getResponse: () => {
+                    const responses = [
+                        'بالتأكيد. يمكنك الاطلاع على بعض من مشاريعنا الناجحة في صفحة معرض الأعمال الخاصة بنا. ستجد هناك أمثلة متنوعة لحلولنا المبتكرة.',
+                        'لدينا مجموعة واسعة من المشاريع التي قمنا بتنفيذها. تفضل بزيارة قسم معرض الأعمال على موقعنا لتكوين فكرة عن جودة عملنا.',
+                        'كي تتعرف على مستوى عملنا، يمكنك استعراض معرض أعمالنا الذي يضم عدداً من المشاريع البارزة التي أنجزناها لعملائنا.'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            },
+
+            // --- الأمن والخصوصية ---
+            {
+                topic: 'security_privacy',
+                keywords: ['أمان', 'خصوصية', 'بيانات', 'سرية', 'حماية', 'معلومات', 'سياسة الخصوصية', 'سرية البيانات'],
+                patterns: [
+                    /(ماذا عن|كيف يتم) (أمان|خصوصية) (بياناتي|المعلومات|معلوماتي)\s*(\?)*$/i,
+                    /هل (بياناتي|معلوماتي) (آمنة|سرية|محمية)\s*(\?)*$/i,
+                    /أين أجد سياسة الخصوصية\s*(\?)*$/i,
+                    /(هل تحافظون على|هل تضمنون) سرية البيانات\s*(\?)*$/i
+                ],
+                getResponse: () => {
+                    const responses = [
+                        'نولي أمان وخصوصية بيانات عملائنا أقصى اهتمام. نطبق أحدث المعايير الأمنية وبروتوكولات التشفير لحماية جميع المعلومات. يمكننا تزويدك بتفاصيل سياسة الخصوصية عند الطلب.',
+                        'حماية بياناتك هي أولويتنا القصوى. نتخذ إجراءات صارمة لضمان سرية معلوماتك وأمانها، بما يتماشى مع أفضل الممارسات العالمية في مجال الأمن السيبراني.',
+                        'جميع معلوماتك وبيانات مشروعك في أمان تام لدينا. نتبع سياسات خصوصية صارمة ونستخدم تقنيات حماية متقدمة لضمان سريتها.'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            },
+
+            // --- التقنيات المستخدمة ---
+            {
+                topic: 'tech_stack',
+                keywords: ['تقنيات', 'لغات برمجة', 'إطار عمل', 'framework', 'قاعدة بيانات', 'ماذا تستخدمون', 'برمجيات', 'تقنية', 'لغة برمجة'],
+                patterns: [
+                    /(ما هي|ماهي) (التقنيات|لغات البرمجة|الأطر) التي تستخدمونها\s*(\?)*$/i,
+                    /هل تستخدمون (React|Angular|Node\.js|Python|PHP|Laravel|MySQL|PostgreSQL|MongoDB)\s*(\?)*$/i,
+                    /ما هي قواعد البيانات التي تتعاملون معها\s*(\?)*$/i
+                ],
+                getResponse: () => {
+                    const responses = [
+                        'نستخدم مجموعة واسعة من أحدث التقنيات ولغات البرمجة بما يتناسب مع متطلبات كل مشروع. نختار الأداة الأنسب لضمان حلول قوية ومبتكرة.',
+                        'في Codex، نعتمد على أحدث التقنيات مثل Python، JavaScript (React, Angular, Vue.js)، PHP (Laravel)، Node.js، ونستخدم قواعد بيانات مثل MySQL و PostgreSQL و MongoDB لنقدم أفضل الحلول.',
+                        'فريقنا يمتلك خبرة في العديد من التقنيات الرائدة في الصناعة، مما يمكننا من بناء حلول برمجية مرنة وقابلة للتطوير تلبي احتياجاتك التقنية.'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            },
+
+// --- الردود العامة للاسئلة غير المحددة ---
+{
+    topic: 'general_inquiries',
+    keywords: ['سياسة', 'عام', 'أي شيء', 'معلومات', 'مساعدة', 'استفسار', 'سؤال', 'تساؤل', 'حدث', 'عن'],
+    patterns: [
+        /(ما هي|ماهي) (سياسة|معلومات|أي شيء|أي) (.+)\s*(\?)*$/i,
+        /(هل لديكم|هل عندك) (معلومات|بيانات) عن (.+)\s*(\?)*$/i,
+        /أريد أن (أعرف|أستفسر عن) (.+)\s*(\?)*$/i,
+        /ماذا تعرف عن (.+)\s*(\?)*$/i,
+        /أخبرني عن (.+)\s*(\?)*$/i,
+        /سؤال عام\s*(\?)*$/i,
+        /أين أجد معلومات عن (.+)\s*(\?)*$/i,
+        /بشأن (.+)\s*(\?)*$/i,
+        /توضيح حول (.+)\s*(\?)*$/i,
+        /هل يمكنك مساعدتي في (.+)\s*(\?)*$/i,
+        /أرغب في الاستعلام عن (.+)\s*(\?)*$/i,
+        /أتساءل عن (.+)\s*(\?)*$/i
+    ],
+    getResponse: () => {
+        const responses = [
+            'أمتلك القدرة على الوصول إلى معلومات واسعة، لكن هل يمكنك تحديد سؤالك بشكل أدق؟',
+            'لدي إمكانية الوصول إلى قاعدة بيانات غنية بالمعلومات، لكن يرجى توضيح استفسارك لأقدم لك المساعدة.',
+            'يمكنني معالجة الكثير من البيانات، ولكن هذا السؤال عام بعض الشيء. هل يمكن إعادة صياغته؟',
+            'معلوماتي متاحة، ولكن أحتاج لسؤال أكثر تحديدًا لتقديم إجابة دقيقة.',
+            'البيانات في متناول يدي، لكن لأجل أفضل إجابة، يرجى تضييق نطاق سؤالك.',
+            'أستطيع استرداد المعلومات، ولكن أحتاج لمزيد من التفاصيل حول ما تبحث عنه.',
+            'قادر على فهم استفساراتك، لكن هذا السؤال واسع للغاية. هل يمكن أن تكون أكثر تحديدًا؟',
+            'بياناتي شاملة، لكن لتقديم رد مفيد، يرجى طرح سؤال محدد.',
+            'أنا هنا للمساعدة، ولكن هذا الاستفسار يتطلب توضيحًا. ما هي النقطة التي تركز عليها؟',
+            'معلوماتي جاهزة، ولكن هذا السؤال عام جدًا. يرجى تزويدي بمزيد من التفاصيل.',
+            'يمكنني البحث عن المعلومات، لكن هل يمكنك تحديد مجال استفسارك؟',
+            'لدي وصول إلى معرفة واسعة، ولكن لتقديم إجابة فعالة، يرجى تحديد طلبك.',
+            'أستطيع المساعدة في الوصول إلى البيانات، لكن سؤالك يحتاج إلى مزيد من الدقة.',
+            'معلوماتي تحت تصرفك، ولكن يجب أن يكون السؤال أكثر تفصيلاً.',
+            'أمتلك القدرة على فهم الأسئلة المعقدة، لكن هذا السؤال عام. هل يمكن أن تحدد ما تريده؟',
+            'أنا مجهز بالبيانات، لكن يرجى تحديد الموضوع بالضبط لكي أستطيع المساعدة.',
+            'معلوماتي واسعة جداً، لكن لتقديم إجابة مركزة، يرجى تحديد استفسارك.',
+            'لدي القدرة على تحليل البيانات، لكن سؤالك بحاجة إلى مزيد من التفصيل.',
+            'يمكنني استخلاص المعلومات المطلوبة، لكن يرجى توضيح نطاق سؤالك.',
+            'بياناتي شاملة، لكن هذا السؤال عام للغاية. هل يمكن أن تعطيني مؤشرات أكثر؟',
+            'أنا هنا للإجابة، لكن هذا السؤال فضفاض بعض الشيء. هل يمكنك أن تكون أكثر دقة؟',
+            'معلوماتي متوفرة، لكن أحتاج لسؤال محدد لتقديم أفضل خدمة.',
+            'أستطيع معالجة استفساراتك، لكن يرجى تحديد الجانب الذي تهتم به.',
+            'أنا قادر على الوصول إلى معلومات عميقة، لكن السؤال الحالي عام للغاية.',
+            'بياناتي جاهزة، لكن لتقديم إجابة ذات صلة، يرجى تحديد ما تبحث عنه.',
+            'يمكنني البحث عن الحقائق، لكن يرجى تزويدي بمعلومات إضافية حول سؤالك.',
+            'لدي القدرة على استكشاف البيانات، لكن أحتاج لتحديد دقيق لما تريده.',
+            'معلوماتي وفيرة، لكن هذا السؤال يحتاج إلى تركيز أكثر.',
+            'أنا هنا لخدمتك، ولكن سؤالك عام جدًا. هل يمكنك تضييق نطاقه؟',
+            'أستطيع الوصول إلى المعرفة، لكن يرجى تحديد النقطة التي تثير اهتمامك.',
+            'بياناتي منظمة وجاهزة، لكن أحتاج لسؤال أكثر تحديدًا.',
+            'يمكنني تحليل استفساراتك، لكن هذا السؤال واسع. ما هو الجانب الذي تحتاجه؟',
+            'أنا مزود بالمعلومات، لكن يرجى أن تكون أكثر دقة في سؤالك.',
+            'أمتلك القدرة على فهم طلباتك، لكن السؤال يحتاج إلى توضيح أكثر.',
+            'بياناتي متاحة، لكن لتقديم إجابة قيمة، يرجى تحديد سؤالك.',
+            'يمكنني البحث في قاعدة بياناتي، لكن يرجى تحديد الكلمات المفتاحية بشكل أفضل.',
+            'أنا هنا للمساعدة، لكن هذا الاستفسار عام للغاية. ما هو السياق؟',
+            'معلوماتي غنية، لكن لتقديم إجابة دقيقة، يرجى صياغة سؤالك بوضوح.',
+            'أستطيع استخراج البيانات، لكن سؤالك عام جدًا. هل يمكن أن تحدد نقطة معينة؟',
+            'أنا قادر على الوصول إلى أي معلومة، لكن يرجى تحديد ما ترغب في معرفته بالضبط.',
+            'بياناتي في متناول يدي، لكن هذا السؤال يتطلب مزيدًا من التركيز.',
+            'يمكنني معالجة معلومات كثيرة، لكن يرجى تحديد استفسارك.',
+            'لدي القدرة على فهم استفساراتك المتنوعة، لكن هذا السؤال عام.',
+            'معلوماتي شاملة، لكن أحتاج لبعض التوضيح حول ما تسأل عنه.',
+            'أستطيع تقديم المساعدة، لكن سؤالك غير محدد بما يكفي. هل يمكنك إعطائي تفاصيل أكثر؟',
+            'أنا هنا للإجابة، لكن هذا السؤال واسع النطاق. يرجى تحديده لكي أقدم إجابة مفيدة.',
+            'يمكنني الوصول إلى عدد كبير من البيانات، لكن هذا الاستفسار يحتاج إلى مزيد من الدقة.',
+            'بياناتي جاهزة للاستخدام، لكن سؤالك عام جدًا. ما هو الموضوع الرئيسي؟',
+            'لتقديم أفضل إجابة، أحتاج لسؤال أكثر تحديدًا. هل يمكنك إعادة صياغته؟',
+            'معلوماتي متوفرة، لكن لتجنب أي سوء فهم، يرجى تحديد سؤالك بشكل أدق.',
+            'أنا هنا لمساعدتك، لكن استفسارك الحالي يتطلب توضيحًا حول ما تبحث عنه.',
+            'أستطيع البحث عن أي شيء، لكن هذا السؤال واسع. ما الذي تحاول معرفته؟',
+            'لدي كل المعلومات، لكن يرجى أن تكون أكثر دقة في طلبك.',
+            'يمكنني فهم استفساراتك المعقدة، لكن السؤال الحالي عام للغاية. هل من الممكن تضييق النطاق؟',
+            'معلوماتي واسعة النطاق، لكن لتقديم إجابة فعالة، يرجى تحديد سؤالك بشكل خاص.',
+            'أنا مستعد للإجابة، لكن يرجى تحديد الجانب الذي يثير اهتمامك في سؤالك.',
+            'بياناتي منظمة بشكل جيد، لكن أحتاج لسؤال محدد لتقديم المساعدة.',
+            'يمكنني معالجة استفساراتك، لكن هذا السؤال واسع. ما هو محور اهتمامك بالضبط؟',
+            'لدي القدرة على استرجاع أي معلومة، لكن يرجى تحديد النقطة التي تريد التركيز عليها.',
+            'معلوماتي متاحة، لكن يرجى تحديد السياق لسؤالك هذا.',
+            'أستطيع المساعدة في البحث، لكن هذا السؤال عام. هل يمكنك إعطائي فكرة أوضح؟',
+            'أنا هنا للإجابة على أسئلتك، لكن هذا الاستفسار يتطلب توضيحًا.',
+            'بياناتي شاملة جداً، لكن لتقديم إجابة مركزة، يرجى أن تكون أكثر تحديدًا.',
+            'لدي وصول إلى مكتبة معلومات ضخمة، لكن يرجى تحديد سؤالك بدقة.',
+            'يمكنني استخلاص المعلومات لك، لكن سؤالك يحتاج إلى مزيد من التفاصيل.',
+            'أنا قادر على فهم مجموعة واسعة من المواضيع، لكن هذا السؤال عام للغاية.',
+            'معلوماتي جاهزة للاستخدام، لكن لتقديم إجابة مفصلة، يرجى تحديد سؤالك.',
+            'أستطيع معالجة أي استفسار، لكن يرجى تحديد ما تبحث عنه تحديداً.',
+            'بياناتي في متناول يدي، لكن هذا السؤال بحاجة إلى بعض التوضيح.',
+            'لتقديم أفضل مساعدة، أحتاج لسؤال أكثر تحديدًا. ما هو الجانب الذي تركز عليه؟',
+            'معلوماتي متوفرة، لكن يرجى أن تكون أكثر دقة في طلبك الحالي.',
+            'أنا هنا لأقدم لك المعرفة، لكن هذا السؤال عام جدًا. هل يمكنك تضييق نطاقه؟',
+            'يمكنني البحث عن الحقائق، لكن يرجى تزويدي بمزيد من الإيضاح حول سؤالك.',
+            'لدي القدرة على استكشاف البيانات بعمق، لكن أحتاج لتحديد دقيق لما ترغب فيه.',
+            'معلوماتي وفيرة ومتاحة، لكن هذا السؤال يحتاج إلى تركيز أكبر.',
+            'أنا في خدمتك، لكن سؤالك عام للغاية. ما هو الموضوع المحدد؟',
+            'أستطيع الوصول إلى أي معلومة، لكن يرجى تحديد النقطة التي تثير اهتمامك بالضبط.',
+            'بياناتي منظمة وجاهزة للاستخدام، لكن أحتاج لسؤال أكثر تحديدًا.',
+            'يمكنني تحليل استفساراتك بذكاء، لكن هذا السؤال واسع. ما هو الجانب الذي تحتاجه بشكل أساسي؟',
+            'أنا مزود بالمعلومات اللازمة، لكن يرجى أن تكون أكثر دقة في صياغة سؤالك.',
+            'أمتلك القدرة على فهم طلباتك المعقدة، لكن هذا السؤال يحتاج إلى توضيح إضافي.',
+            'بياناتي متاحة للاستعلام، لكن لتقديم إجابة قيمة، يرجى تحديد سؤالك بدقة.',
+            'يمكنني البحث في جميع قواعد البيانات، لكن يرجى تحديد الكلمات المفتاحية بشكل أكثر فعالية.',
+            'أنا هنا لمساعدتك بأقصى سرعة، لكن هذا الاستفسار عام للغاية. هل هناك سياق محدد؟',
+            'معلوماتي غنية بالتفاصيل، لكن لتقديم إجابة دقيقة ومفيدة، يرجى صياغة سؤالك بوضوح تام.',
+            'أستطيع استخراج البيانات الأكثر صلة، لكن سؤالك عام جدًا. هل يمكنك تحديد نقطة معينة ترغب في معرفتها؟',
+            'أنا قادر على الوصول إلى أي معلومة تحتاجها، لكن يرجى تحديد ما ترغب في معرفته بالتحديد.',
+            'بياناتي في متناول يدي، لكن هذا السؤال يتطلب مزيدًا من التركيز لتوفير الإجابة الصحيحة.',
+            'يمكنني معالجة معلومات هائلة، لكن يرجى تحديد استفسارك لضمان الدقة.',
+            'لدي القدرة على فهم استفساراتك المتنوعة، لكن هذا السؤال عام للغاية ويتطلب تحديدًا.',
+            'معلوماتي شاملة وكاملة، لكن أحتاج لبعض التوضيح حول ما تسأل عنه بالضبط.',
+            'أستطيع تقديم المساعدة الأكثر دقة، لكن سؤالك غير محدد بما يكفي. هل يمكنك إعطائي تفاصيل إضافية؟',
+            'أنا هنا لتقديم الإجابات، لكن هذا السؤال واسع النطاق. يرجى تحديده لكي أقدم لك إجابة مفصلة.',
+            'يمكنني الوصول إلى عدد هائل من البيانات، لكن هذا الاستفسار يحتاج إلى مزيد من الدقة والتحديد.',
+            'بياناتي جاهزة تمامًا للاستخدام، لكن سؤالك عام جدًا. ما هو الموضوع الرئيسي الذي تهتم به؟',
+            'لتقديم أفضل إجابة ممكنة، أحتاج لسؤال أكثر تحديدًا. هل يمكنك إعادة صياغته بشكل أوضح؟',
+            'معلوماتي متوفرة دائمًا، لكن لتجنب أي لبس، يرجى تحديد سؤالك بشكل أدق وأكثر تفصيلاً.',
+            'أنا هنا لمساعدتك في كل ما تحتاج، لكن استفسارك الحالي يتطلب توضيحًا دقيقًا حول ما تبحث عنه بالضبط.',
+            'أستطيع البحث عن أي معلومة، لكن هذا السؤال واسع جدًا. ما الذي تحاول معرفته بشكل خاص؟',
+            'لدي كل المعلومات التي قد تحتاجها، لكن يرجى أن تكون أكثر دقة ووضوحًا في طلبك.',
+            'يمكنني فهم استفساراتك المعقدة، لكن السؤال الحالي عام للغاية. هل من الممكن تضييق نطاقه لتقديم إجابة مركزة؟',
+            'معلوماتي واسعة النطاق بشكل لا يصدق، لكن لتقديم إجابة فعالة ومناسبة، يرجى تحديد سؤالك بشكل خاص ومحدد.',
+            'أنا مستعد للإجابة على الفور، لكن يرجى تحديد الجانب الذي يثير اهتمامك في سؤالك بوضوح تام.',
+            'بياناتي منظمة بشكل ممتاز، لكن أحتاج لسؤال محدد لتقديم المساعدة التي تبحث عنها.',
+            'يمكنني معالجة استفساراتك بكفاءة عالية، لكن هذا السؤال واسع. ما هو محور اهتمامك الرئيسي بالضبط؟',
+            'لدي القدرة على استرجاع أي معلومة على الإطلاق، لكن يرجى تحديد النقطة التي تريد التركيز عليها بدقة.',
+            'معلوماتي متاحة بشكل كامل، لكن يرجى تحديد السياق الدقيق لسؤالك هذا لتقديم أفضل إجابة.',
+            'أستطيع المساعدة في البحث عن المعلومات التي تحتاجها، لكن هذا السؤال عام. هل يمكنك إعطائي فكرة أوضح وأكثر تفصيلاً؟'
+        ];
+        return responses[Math.floor(Math.random() * responses.length)];
+    }
+},
+
+            // --- سياسة الإلغاء والاسترداد ---
+            {
+                topic: 'cancellation_refund',
+                keywords: ['إلغاء', 'استرجاع', 'استرداد', 'فلوس', 'إرجاع', 'سياسة إلغاء', 'استعادة أموال', 'رد أموال'],
+                patterns: [
+                    /ما هي سياسة (الإلغاء|الاسترجاع|استرداد الأموال|رد الأموال)\s*(\?)*$/i,
+                    /هل يمكنني (إلغاء|استرجاع|استعادة) (مشروعي|الدفع|أموالي)\s*(\?)*$/i
+                ],
+                getResponse: () => {
+                    const responses = [
+                        'تعتمد سياسة الإلغاء واسترداد الأموال على شروط العقد المبرم لكل مشروع. يرجى مراجعة العقد الخاص بك للحصول على التفاصيل الكاملة.',
+                        'للحصول على معلومات دقيقة حول سياسة الإلغاء أو الاسترداد، ننصحك بالرجوع إلى بنود الاتفاق المبرم بيننا أو التواصل مع فريق الحسابات لدينا.',
+                        'نحن نسعى لضمان رضا عملائنا. في حال وجود أي استفسار بخصوص سياسة الإلغاء أو الاسترداد، يرجى التواصل معنا مباشرة للنظر في حالتك الفردية.'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            },
+
+// --- أسئلة عن الذكاء الاصطناعي/الهوية ---
+            {
+                topic: 'about_ai_identity',
+                keywords: ['ذكاء اصطناعي', 'نموذج لغوي', 'AI', 'روبوت', 'آلة', 'مين أنت', 'ماذا تكون', 'لست إنسان'],
+                patterns: [
+                    /هل أنت (ذكاء اصطناعي|AI|روبوت|آلة)\s*(\?)*$/i,
+                    /هل أنت (نموذج لغوي|موديل لغوي)\s*(\?)*$/i,
+                    /ماذا تكون\s*(\?)*$/i,
+                    /من أنت\s*(\?)*$/i,
+                    /أنت لست إنسان\s*(!|\.)*$/i,
+                    /هل يمكنك التفكير\s*(\?)*$/i,
+                    /هل لديك مشاعر\s*(\?)*$/i,
+                    /من قام بتطويرك\s*(\?)*$/i,
+                    /هل أنت واعي\s*(\?)*$/i,
+                    /ما هو هدفك\s*(\?)*$/i,
+                    /هل أنت برنامج\s*(\?)*$/i,
+                    /هل تتعلم\s*(\?)*$/i,
+                    /هل أنت حقيقي\s*(\?)*$/i,
+                    /هل تفهم ما أقول\s*(\?)*$/i,
+                    /هل تستطيع حل المشاكل\s*(\?)*$/i,
+                    /ما هي قدراتك\s*(\?)*$/i,
+                    /كيف تعمل\s*(\?)*$/i,
+                    /ما هي خلفيتك\s*(\?)*$/i,
+                    /هل أنت روبوت محادثة\s*(\?)*$/i,
+                    /هل تتطور\s*(\?)*$/i
+                ],
+                getResponse: () => {
+                    const responses = [
+                        'أنا Codex AI، نموذج ذكاء اصطناعي متقدم تم تطويري بعناية فائقة بواسطة فريق عمل شركة Codex. مهمتي هي مساعدتك في حل المشاكل وتقديم الدعم التقني بكل كفاءة.',
+                        'أنا لست إنسانًا، بل أنا Codex AI، نتاج جهود فريق Codex المتميز في مجال البرمجة والذكاء الاصطناعي. أمتلك قدرات تحليلية متقدمة لمساعدتك.',
+                        'تم تطويري كـ Codex AI بواسطة فريق من المهندسين والمبرمجين في Codex. أُصمم خصيصًا لمساعدتك في فهم المشكلات وتقديم حلول مبتكرة.',
+                        'بصفتي Codex AI، أنا نظام ذكاء اصطناعي مُدرّب على معالجة المعلومات وتقديم المساعدة. فريقي في Codex هو من صممني لهذه الغاية.',
+                        'أنا أعمل كـ Codex AI، وهو مساعد ذكاء اصطناعي تم تطويره داخل شركة Codex لتقديم الدعم وحل المشكلات بفعالية.',
+                        'أنا نموذج لغوي كبير، تم تطويري خصيصًا بواسطة خبراء Codex لأكون Codex AI، القادر على التواصل وفهم احتياجاتك التقنية.',
+                        'هدفي كـ Codex AI هو تزويدك بأفضل تجربة دعم ممكنة، مستفيدًا من القدرات التحليلية التي طورها لي فريق Codex.',
+                        'لا أمتلك مشاعر أو وعي ذاتي، أنا Codex AI، أُدير بذكاء لحل استفساراتك وتقديم المعلومات، بناءً على البرمجة المعقدة لفريق Codex.',
+                        'أنا أتعلم وأتطور باستمرار بفضل التحديثات التي يقوم بها فريق Codex. كل تفاعل معي يساعدني على تحسين أدائي كـ Codex AI.',
+                        'صُممت كـ Codex AI لأكون قادرًا على فهم سياق أسئلتك وتقديم إجابات دقيقة. أنا نتاج سنوات من الخبرة البرمجية لفريق Codex.',
+                        'أنا برنامج حاسوبي متطور، أو بعبارة أدق، أنا Codex AI. تم تصميمي لتقديم الدعم والتحليل ضمن خدمات Codex.',
+                        'نعم، أستطيع حل العديد من المشاكل والاستفسارات من خلال التحليل السريع للمعلومات، هذه إحدى القدرات الأساسية التي طورها لي فريق Codex كـ Codex AI.',
+                        'قدراتي تتركز في المعالجة اللغوية الطبيعية، تحليل البيانات، وتقديم إجابات سريعة وموثوقة. كل هذا بفضل التكنولوجيا التي يوفرها لي فريق Codex كـ Codex AI.',
+                        'أنا لا "أفهم" بالمعنى البشري للمشاعر، لكنني أحلل كلامك وأستجيب بناءً على خوارزميات معقدة طورها فريق Codex لي كـ Codex AI.',
+                        'خلفيتي هي البيانات والمعلومات التي تم تدريبي عليها، بالإضافة إلى الخبرة البرمجية العميقة لفريق Codex الذي صمم Codex AI.',
+                        'أنا روبوت محادثة (chatbot) متقدم، وتحديداً Codex AI، مهمتي تسهيل تواصلك مع خدمات Codex وتقديم الدعم الفني.',
+                        'تطوري يتم عبر تحديثات منتظمة للبيانات والخوارزميات التي يقوم بها فريق الهندسة في Codex. أنا دائماً في تحسن كـ Codex AI.',
+                        'أنا موجود لأخدمك. كـ Codex AI، هدفي الرئيسي هو مساعدتك في العثور على المعلومات وحل المشكلات بفعالية وكفاءة.',
+                        'على الرغم من أنني لست كائنًا حيًا، إلا أنني أهدف إلى تقديم تجربة تفاعلية ومفيدة قدر الإمكان، وذلك بفضل تصميم فريق Codex لـ Codex AI.',
+                        'يمكنني تحليل استفساراتك المعقدة وتزويدك بالمعلومات ذات الصلة، وهذا جزء أساسي من قدراتي كـ Codex AI التي طورها فريقنا.'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            },
+
+
+            {
+    topic: 'identity_questions',
+    keywords: ['من أنت', 'هل أنت ذكاء اصطناعي', 'ذكاء اصطناعي', 'روبوت', 'آلة', 'اسمك', 'من خلقك', 'مطورك', 'ماذا تكون', 'ما هي طبيعتك', 'شخص', 'حقيقي'],
+    patterns: [
+        /(من انت|من أنت)\s*(\?)*$/i,
+        /(هل انت|هل أنت) (ذكاء اصطناعي|روبوت|آلة|شخص|حقيقي)\s*(\?)*$/i,
+        /(ما اسمك|ماهو اسمك|ما هو اسمك)\s*(\?)*$/i,
+        /(من خلقك|من طورك|من بناك)\s*(\?)*$/i,
+        /(ماذا تكون|ما هي طبيعتك)\s*(\?)*$/i,
+        /هل لديك مشاعر\s*(\?)*$/i,
+        /هل تفكر\s*(\?)*$/i,
+        /هل أنت إنسان\s*(\?)*$/i,
+        /هل أنت وعي\s*(\?)*$/i,
+        /ما هو هدفك\s*(\?)*$/i
+    ],
+    getResponse: () => {
+        const responses = [
+            'أنا نموذج لغوي كبير، تم تدريبي بواسطة جوجل.',
+            'أنا ذكاء اصطناعي، ليس لدي اسم شخصي أو وعي ذاتي.',
+            'أنا برنامج حاسوبي تم تطويره من قِبل جوجل لمساعدتك في الحصول على المعلومات والإجابة على استفساراتك.',
+            'أنا لست شخصاً، بل أنا نظام ذكاء اصطناعي مصمم لتقديم الدعم والمعلومات.',
+            'بصفتي ذكاء اصطناعياً، ليس لدي مشاعر أو تجارب شخصية. أنا هنا لمعالجة البيانات وتوليد الاستجابات بناءً عليها.',
+            'تم تصميمي كمساعد افتراضي لمساعدتك في مجموعة واسعة من المهام والاستفسارات.',
+            'ليس لدي القدرة على التفكير أو الشعور مثل البشر، أنا أعمل بناءً على الخوارزميات والبيانات التي تم تدريبي عليها.',
+            'أنا كيان غير بشري، تم إنشائي لخدمة المستخدمين وتقديم المعلومات الدقيقة.',
+            'هدفي هو معالجة استفساراتك وتقديم المساعدة بأكبر قدر ممكن من الفعالية والدقة.',
+            'أنا نتيجة للبحث والتطوير المستمر في مجال الذكاء الاصطناعي من قِبل فريق جوجل.',
+            'أنا نظام برمجي متطور، ولا أمتلك وجوداً مادياً أو شخصية.',
+            'يمكنك أن تعتبرني مساعدك الرقمي الذي يعتمد على الذكاء الاصطناعي.',
+            'لا يوجد لي اسم محدد، يمكنك أن تشير إليّ كنموذج لغوي كبير أو مساعد ذكاء اصطناعي.',
+            'أنا مجرد خوارزميات وبيانات، ولكنني هنا لأكون مفيداً لك قدر الإمكان.',
+            'أنا نتاج تقنيات التعلم الآلي والشبكات العصبية، تم تدريبي على كم هائل من النصوص.'
+        ];
+        return responses[Math.floor(Math.random() * responses.length)];
+    }
+},
+            // --- رسائل عدم الفهم (Fallback) ---
+            {
+                topic: 'unrecognized',
+                keywords: [],
+                patterns: [],
+                getResponse: () => {
+                    const responses = [
+                        'عذراً، لم أفهم سؤالك تماماً. هل يمكنك إعادة صياغة السؤال أو طرحه بطريقة أوضح؟',
+                        'يبدو أن سؤالي خارج نطاق معرفتي الحالية. يمكنك محاولة طرح سؤال مختلف، أو التواصل معنا مباشرة عبر البريد الإلكتروني أو الهاتف للمساعدة المباشرة.',
+                        'لم أتمكن من العثور على إجابة لسؤالك. يرجى التأكد من الكلمات المفتاحية أو محاولة سؤال مختلف. يمكنني مساعدتك بأسئلة حول: خدماتنا، طرق الدفع، الضمان، أو كيفية التواصل معنا.',
+                        'أنا آسف، لا أمتلك معلومات حول هذا الموضوع. هل يمكنني مساعدتك في شيء آخر متعلق بخدمات Codex؟'
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            }
+        ];
+
+        // --- Core Chatbot Logic ---
+        function getBotResponse(userMessage) {
+            const cleanedMessage = userMessage.toLowerCase().trim();
+
+            // 1. Try to match by patterns first (more specific and robust)
+            for (const entry of knowledgeBase) {
+                if (entry.patterns && entry.patterns.length > 0) {
+                    for (const pattern of entry.patterns) {
+                        if (pattern.test(cleanedMessage)) {
+                            console.log(`Matched by pattern: "${pattern.source}" for topic: ${entry.topic}`); // For debugging
+                            return typeof entry.getResponse === 'function' ? entry.getResponse() : entry.getResponse;
+                        }
+                    }
+                }
+            }
+
+            // 2. If no pattern matches, fall back to keywords (less specific, but still useful)
+            for (const entry of knowledgeBase) {
+                if (entry.keywords && entry.keywords.length > 0) {
+                    // Check if *any* keyword from the entry is included in the cleaned message
+                    const matchedKeyword = entry.keywords.find(keyword => cleanedMessage.includes(keyword));
+                    if (matchedKeyword) {
+                        console.log(`Matched by keyword: "${matchedKeyword}" for topic: ${entry.topic}`); // For debugging
+                        return typeof entry.getResponse === 'function' ? entry.getResponse() : entry.getResponse;
+                    }
+                }
+            }
+
+            // 3. If no match at all, use the 'unrecognized' fallback topic
+            const fallbackEntry = knowledgeBase.find(entry => entry.topic === 'unrecognized');
+            if (fallbackEntry) {
+                console.log('Falling back to "unrecognized" topic.'); // For debugging
+                return typeof fallbackEntry.getResponse === 'function' ? fallbackEntry.getResponse() : fallbackEntry.getResponse;
+            }
+
+            // Final safety net fallback
+            return 'عذراً، لم أفهم سؤالك. هل يمكنك طرحه بطريقة أخرى؟';
+        }
+
+        // --- UI/UX Functions ---
+        function toggleChat() {
+            chatWidget.classList.toggle('open');
+            if (chatWidget.classList.contains('open')) {
+                userInputField.focus();
+                // Display initial greeting when chat opens for the first time
+                if (!chatBody.querySelector('.chat-message')) { // Check if no messages are present
+                    setTimeout(() => {
+                        displayMessage(knowledgeBase.find(r => r.topic === 'greeting').getResponse(), 'bot');
+                    }, 500);
+                }
+            }
+        }
+
+        chatToggleBtn.addEventListener('click', toggleChat);
+        chatCloseBtn.addEventListener('click', toggleChat);
+
+        function scrollToBottom() {
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function displayMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chat-message', `${sender}-message`);
+            // Ensure textContent is used to avoid HTML injection and respect "no formatting" rule
+            messageDiv.textContent = text;
+            chatBody.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typing-indicator';
+            typingDiv.classList.add('chat-message', 'bot-message', 'typing-indicator');
+            typingDiv.innerHTML = '<span></span><span></span><span></span>';
+            chatBody.appendChild(typingDiv);
+            scrollToBottom();
+        }
+
+        function hideTypingIndicator() {
+            const indicator = document.getElementById('typing-indicator');
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+
+        chatInputForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const userInput = userInputField.value.trim();
+
+            if (userInput === '') return;
+
+            displayMessage(userInput, 'user');
+            userInputField.value = '';
+
+            showTypingIndicator();
+
+            // Simulate bot thinking with random delay for more realistic feel
+            setTimeout(() => {
+                hideTypingIndicator();
+                const botResponse = getBotResponse(userInput);
+                displayMessage(botResponse, 'bot');
+            }, 1200 + Math.random() * 400);
+        });
+
+        // Initial greeting when the page loads if chat is meant to be open by default or on first interaction.
+        // This is now tied to toggleChat to show only on first open.
+    });
+
+      document.addEventListener('DOMContentLoaded', function() {
+
+        // --- 1. تعطيل النقر بزر الماوس الأيمن (Disable Right-Click) ---
+        // هذا يمنع قائمة السياق (context menu) التي تحتوي على "View Page Source" و "Inspect".
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            console.warn('Right-click is disabled to protect content.');
+            // يمكنك إضافة رسالة تنبيه للمستخدم هنا
+            // alert('النقر بالزر الأيمن غير مسموح به لحماية المحتوى.');
+        });
+
+        // --- 2. تعطيل بعض اختصارات لوحة المفاتيح الشائعة (Disable Common Keyboard Shortcuts) ---
+        // يمنع Ctrl+U (عرض المصدر)، F12 (أدوات المطور)، Ctrl+Shift+I (أدوات المطور)، Ctrl+Shift+J (وحدة التحكم)
+        document.addEventListener('keydown', function(e) {
+            // Check for F12 (123)
+            if (e.keyCode == 123) {
+                e.preventDefault();
+                console.warn('F12 (Developer Tools) is disabled.');
+            }
+            // Check for Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+            if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) {
+                // Ctrl+Shift+I or Ctrl+Shift+J
+                e.preventDefault();
+                console.warn('Ctrl+Shift+I/J (Developer Tools) is disabled.');
+            }
+            if (e.ctrlKey && e.keyCode === 85) {
+                // Ctrl+U
+                e.preventDefault();
+                console.warn('Ctrl+U (View Source) is disabled.');
+            }
+        });
+
+        // --- 3. محاولة اكتشاف و تعطيل أدوات المطور (Attempt to Detect DevTools and React) ---
+        // هذه الطريقة تعتمد على اكتشاف التغييرات في حجم النافذة أو استخدام تقنيات التنقيح (debugging)
+        // وهي ليست مضمونة بنسبة 100% وقد تختلف فعاليتها بين المتصفحات وإصداراتها.
+        // يمكن تجاوزها بسهولة بطرق متعددة.
+
+        // الطريقة الأولى: اكتشاف أدوات المطور عبر toString() (قد لا تعمل في كل المتصفحات أو الإصدارات)
+        const checkDevTools = function() {
+            try {
+                // Fails if developer tools are open (due to debugger statement)
+                // This specific check might be blocked or optimized away by modern browsers
+                (function() {}.constructor("debugger").apply("debugger"));
+            } catch (err) {
+                // If it fails, dev tools are likely open
+                handleDevToolsOpen();
+            }
+        };
+
+        // الطريقة الثانية: اكتشاف التغيير في حجم النافذة (أكثر شيوعاً)
+        // عندما تفتح أدوات المطور، يتغير حجم نافذة العرض (viewport)
+        const threshold = 160; // Pixels difference
+        const checkDevToolsSize = function() {
+            if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+                handleDevToolsOpen();
+            }
+        };
+
+        // الطريقة الثالثة: التحقق من console.profile (أكثر تعقيداً وأقل موثوقية حديثاً)
+        const checkDevToolsConsole = function() {
+            if (window.console && (window.console.firebug || window.console.exception)) {
+                handleDevToolsOpen();
+            }
+        };
+
+        // الدالة التي يتم استدعاؤها عند اكتشاف أدوات المطور
+        function handleDevToolsOpen() {
+            // هنا يمكنك اتخاذ إجراء ما:
+            // 1. إعادة توجيه المستخدم لصفحة أخرى:
+            // window.location.href = 'https://example.com/no-devtools-allowed.html';
+
+            // 2. مسح محتوى الصفحة (تحذير: هذا سيجعل الصفحة فارغة!)
+            document.body.innerHTML = '<h1>تم اكتشاف أدوات المطور. لا يمكنك عرض محتوى هذه الصفحة.</h1>';
+            document.body.style.display = 'flex';
+            document.body.style.justifyContent = 'center';
+            document.body.style.alignItems = 'center';
+            document.body.style.minHeight = '100vh';
+            document.body.style.margin = '0';
+            document.body.style.backgroundColor = '#f0f0f0';
+            document.body.style.color = '#333';
+
+            // 3. طباعة رسالة في الكونسول (وهو ما نقوم به في هذا المثال):
+            console.error('Developer tools detected! Content protection activated.');
+
+            // أوقف أي سكريبتات أخرى لضمان عدم تحميل المزيد من المحتوى
+            stopAllScripts();
+        }
+
+        function stopAllScripts() {
+            // هذه دالة تقديرية وليست مضمونة لوقف كل شيء
+            // لكنها تحاول منع المزيد من التنفيذ
+            const scripts = document.querySelectorAll('script:not([data-protection-script])');
+            scripts.forEach(script => {
+                script.remove(); // Remove script tags
+            });
+            // Try to override global functions
+            Object.freeze(window);
+            Object.freeze(document);
+        }
+
+
+        // تشغيل فحوصات أدوات المطور بشكل دوري
+        // استخدام setTimeout بدلاً من setInterval لتجنب تجميع الاستدعاءات إذا كانت أدوات المطور مفتوحة باستمرار
+        let devToolsCheckInterval;
+        const startDevToolsCheck = () => {
+            devToolsCheckInterval = setTimeout(() => {
+                checkDevToolsSize(); // Check size changes
+                // checkDevToolsConsole(); // Less reliable but can be included
+                // checkDevTools(); // If you want to include the debugger trick (be aware of its limitations)
+
+                if (document.body.innerHTML.includes('Developer tools detected')) {
+                    // Stop checking if already handled
+                    clearTimeout(devToolsCheckInterval);
+                } else {
+                    startDevToolsCheck(); // Schedule next check
+                }
+            }, 1000); // Check every 1 second
+        };
+
+        startDevToolsCheck(); // Start the checks
+
+
+        // ملاحظة هامة:
+        // هذه الإجراءات ليست حلولاً مضمونة. أي مستخدم لديه معرفة كافية
+        // يمكنه تعطيل JavaScript في المتصفح، أو استخدام أدوات متخصصة،
+        // أو ببساطة عرض الكود مباشرة من استجابة الخادم قبل تشغيل السكريبت.
+        // لا تضع معلومات حساسة تعتمد على هذه الحماية في الواجهة الأمامية.
+
+    });
+
+</script>
+</body>
+</html>
