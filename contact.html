@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تواصل معنا | Codex Dev Easy</title>
+    <title>تواصل معنا | CodeX </title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -128,28 +128,61 @@
         .channel-content-transition.active {
             opacity: 1;
         }
+
+        /* مؤثر تحميل ناعم */
+        @keyframes fade-in-down {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-down {
+            animation: fade-in-down 0.6s ease-out both;
+        }
+
+        /* === NEW ANIMATION FOR MAINTENANCE MESSAGE === */
+        @keyframes show-message-animation {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        .animate-message {
+            animation: show-message-animation 0.5s ease-out forwards;
+        }
     </style>
 </head>
 <body class="antialiased">
 
-    <header class="bg-light-beige/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold text-gray-800 transition-transform hover:scale-105">Codex</a>
+    <header class="bg-light-beige/80 backdrop-blur-lg shadow-sm sticky top-0 z-50 transition-all duration-300 ease-in-out" id="main-header">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center animate-fade-in-down">
+            <a href="index.html" class="relative text-2xl font-bold text-gray-800 transition-transform duration-300 hover:scale-105 group">
+                Codex
+                <span class="absolute -bottom-1 left-0 w-0 h-1 bg-sky-400 group-hover:w-full transition-all duration-500 rounded-full"></span>
+            </a>
 
             <nav class="hidden md:flex items-center space-x-8 space-x-reverse">
-                <a href="index.html#home" class="text-gray-600 hover:text-sky-blue transition">الرئيسية</a>
-                <a href="shop.html" class="text-gray-600 hover:text-sky-blue transition">منتجاتنا</a>
-                <a href="about.html" class="text-gray-600 hover:text-sky-blue transition">من نحن</a>
-                <a href="contact.html" class="text-sky-blue font-bold transition">تواصل معنا</a>
+                <a href="index.html" class="text-gray-600 hover:text-sky-blue transition relative hover:after:w-full after:absolute after:bottom-0 after:right-0 after:w-0 after:h-0.5 after:bg-sky-blue after:transition-all after:duration-500">الرئيسية</a>
+                <a href="shop.html" class="text-gray-600 hover:text-sky-blue transition relative hover:after:w-full after:absolute after:bottom-0 after:right-0 after:w-0 after:h-0.5 after:bg-sky-blue after:transition-all after:duration-500">منتجاتنا</a>
+                <a href="about.html" class="text-gray-600 hover:text-sky-blue transition relative hover:after:w-full after:absolute after:bottom-0 after:right-0 after:w-0 after:h-0.5 after:bg-sky-blue after:transition-all after:duration-500">من نحن</a>
+                <a href="contact.html" class="text-gray-600 hover:text-sky-blue transition relative hover:after:w-full after:absolute after:bottom-0 after:right-0 after:w-0 after:h-0.5 after:bg-sky-blue after:transition-all after:duration-500">تواصل معنا</a>
             </nav>
 
-            <a href="support.html" class="hidden md:block bg-sky-blue text-white font-bold py-2 px-5 rounded-lg shadow-md hover:bg-sky-blue-dark transition-colors">
+            <a href="support.html" class="hidden md:block bg-sky-blue text-white font-bold py-2 px-5 rounded-lg shadow-md hover:bg-sky-blue-dark transition-all duration-300 hover:scale-105 hover:shadow-lg hover:animate-pulse">
                 الدعم الفني
             </a>
 
-            <button class="md:hidden text-gray-700 focus:outline-none">
-                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            <button class="md:hidden text-gray-700 focus:outline-none transition-transform duration-300 hover:rotate-90">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
             </button>
         </div>
@@ -161,7 +194,7 @@
             
             <div class="flex flex-col md:flex-row bg-discord-dark-bg rounded-lg shadow-2xl overflow-hidden max-w-5xl mx-auto border border-gray-700">
 
-        <div class="w-full md:w-1/4 bg-discord-mid-dark p-4 border-l border-gray-700 md:border-l-0 md:border-r flex flex-col items-start">
+                <div class="w-full md:w-1/4 bg-discord-mid-dark p-4 border-l border-gray-700 md:border-l-0 md:border-r flex flex-col items-start">
                     <div class="flex items-center mb-6 w-full">
                         <img src="dis.png" alt="Discord Icon" class="w-8 h-8 ml-3">
                         <h2 class="text-white text-lg font-semibold truncate">Codex </h2>
@@ -180,7 +213,7 @@
                     </div>
                 </div>
 
-        <div class="w-full md:w-3/4 bg-discord-dark-bg p-6 flex flex-col justify-between discord-scrollbar">
+                <div class="w-full md:w-3/4 bg-discord-dark-bg p-6 flex flex-col justify-between discord-scrollbar">
                     <div class="flex items-center mb-6 pb-4 border-b border-gray-700">
                         <span id="channel-header-icon" class="material-icons text-discord-light-grey text-3xl ml-3">tag</span>
                         <h2 id="channel-header-name" class="text-discord-text text-2xl font-semibold">تواصل-معنا</h2>
@@ -257,7 +290,7 @@
                         </div>
                     </div>
 
-        <div class="mt-8">
+                    <div class="mt-8">
                         <div class="bg-discord-channel-bg rounded-lg p-3 flex items-center">
                             <span class="material-icons text-discord-light-grey ml-3">add_circle</span>
                             <input type="text" placeholder="الرسائل في هذه القناة موقوفة." class="flex-grow bg-transparent text-discord-text outline-none placeholder-discord-light-grey text-lg pr-3" disabled>
@@ -270,9 +303,12 @@
             </div>
             
             <div class="text-center mt-12">
-                <a href="https://discord.gg/QQAEpsnKZF" target="_blank" class="inline-block bg-discord-purple text-white font-bold py-4 px-8 rounded-full text-xl shadow-lg hover:bg-discord-mention-blue transition-colors duration-300 transform hover:scale-105">
+                <a href="" id="join-discord-btn" target="_blank" class="inline-block bg-discord-purple text-white font-bold py-4 px-8 rounded-full text-xl shadow-lg hover:bg-discord-mention-blue transition-colors duration-300 transform hover:scale-105">
                     انضم إلى سيرفرنا على Discord الآن!
                 </a>
+                <div id="maintenance-message" class="text-red-500 font-bold mt-4 text-center hidden">
+                    عميلنا العزيز, مجتمعنا تحت الصيانة حاليا لا يمكنك الانضمام, شكرا لتفهمك .
+                </div>
             </div>
         </div>
     </main>
@@ -285,17 +321,27 @@
             </div>
 
             <div class="flex justify-center md:justify-center space-x-6 rtl:space-x-reverse">
-                <a href="#" class="hover:text-sky-400 transition" aria-label="GitHub">
-                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 .5C5.373.5 0 5.873 0 12.5c0 5.292 3.438 9.787 8.205 11.387.6.111.82-.261.82-.579 0-.285-.01-1.04-.015-2.04-3.338.726-4.042-1.612-4.042-1.612-.546-1.385-1.333-1.754-1.333-1.754-1.09-.745.082-.73.082-.73 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.774.418-1.305.762-1.605-2.665-.305-5.466-1.332-5.466-5.93 0-1.31.469-2.38 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.745 0 .267.18.577.688.48C19.135 20.165 22 16.418 22 12.5 22 5.873 18.627.5 12 .5z"/></svg>
-                </a>
-                <a href="https://discord.gg/QQAEpsnKZF" class="hover:text-sky-400 transition" aria-label="Discord">
-                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M20.317 4.369a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.078.037c-.211.375-.444.864-.608 1.249a18.365 18.365 0 00-5.493 0 12.06 12.06 0 00-.617-1.249.077.077 0 00-.078-.037 19.736 19.736 0 00-4.885 1.515.07.07 0 00-.033.027C.533 9.045-.32 13.579.099 18.057a.082.082 0 00.031.056 19.9 19.9 0 005.993 3.058.077.077 0 00.084-.027c.46-.63.873-1.295 1.226-1.989a.076.076 0 00-.041-.106 13.276 13.276 0 01-1.886-.902.077.077 0 01-.008-.127c.126-.094.252-.192.374-.291a.074.074 0 01.077-.01c3.928 1.795 8.18 1.795 12.061 0a.073.073 0 01.078.009c.123.099.248.198.375.292a.076.076 0 01-.006.127 12.387 12.387 0 01-1.887.901.076.076 0 00-.04.107c.36.693.773 1.358 1.225 1.988a.075.075 0 00.084.028 19.87 19.87 0 006.002-3.057.078.078 0 00.03-.057c.5-5.177-.838-9.673-3.548-13.66a.062.062 0 00-.03-.027zM8.02 15.331c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.175 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.175 1.094 2.157 2.418 0 1.334-.947 2.419-2.157 2.419z"/></svg>
-                </a>
-               <a href="#" class="hover:text-sky-400 transition" aria-label="X">
-             <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
-               <path d="M21.543 3H17.7l-5.3 6.867L6.257 3H2l7.617 10.066L2 21h3.843l5.57-7.207L17.7 21H22l-7.905-10.34L21.543 3z"/>
-             </svg>
-           </a>
+<a href="https://www.youtube.com/@CodeX-dev-eazy" class="hover:text-red-600 transition" aria-label="YouTube" target="_blank">
+    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+        <path d="M23.498 6.186a2.93 2.93 0 0 0-2.057-2.066C19.57 3.5 12 3.5 12 3.5s-7.57 0-9.441.62A2.93 2.93 0 0 0 .502 6.186C0 8.066 0 12 0 12s0 3.934.502 5.814a2.93 2.93 0 0 0 2.057 2.066C4.43 20.5 12 20.5 12 20.5s7.57 0 9.441-.62a2.93 2.93 0 0 0 2.057-2.066C24 15.934 24 12 24 12s0-3.934-.502-5.814zM9.75 15.018V8.982L15.545 12 9.75 15.018z"/>
+    </svg>
+</a>
+
+<a href="https://discord.gg/QQAEpsnKZF" class="hover:text-indigo-500 transition" aria-label="Discord" target="_blank">
+    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+        <path d="M20.317 4.369a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.078.037c-.211.375-.444.864-.608 1.249a18.365 18.365 0 00-5.493 0 12.06 12.06 0 00-.617-1.249.077.077 0 00-.078-.037 19.736 19.736 0 00-4.885 1.515.07.07 0 00-.033.027C.533 9.045-.32 13.579.099 18.057a.082.082 0 00.031.056 19.9 19.9 0 005.993 3.058.077.077 0 00.084-.027c.46-.63.873-1.295 1.226-1.989a.076.076 0 00-.041-.106 13.276 13.276 0 01-1.886-.902.077.077 0 01-.008-.127c.126-.094.252-.192.374-.291a.074.074 0 01.077-.01c3.928 1.795 8.18 1.795 12.061 0a.073.073 0 01.078.009c.123.099.248.198.375.292a.076.076 0 01-.006.127 12.387 12.387 0 01-1.887.901.076.076 0 00-.04.107c.36.693.773 1.358 1.225 1.988a.075.075 0 00.084.028 19.87 19.87 0 006.002-3.057.078.078 0 00.03-.057c.5-5.177-.838-9.673-3.548-13.66a.062.062 0 00-.03-.027zM8.02 15.331c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.175 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.175 1.094 2.157 2.418 0 1.334-.947 2.419-2.157 2.419z"/>
+    </svg>
+</a>
+
+
+
+<a href="https://x.com/CodeXdeveazy" class="text-white hover:text-gray-300 transition" aria-label="X" target="_blank">
+    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+        <path d="M21.543 3H17.7l-5.3 6.867L6.257 3H2l7.617 10.066L2 21h3.843l5.57-7.207L17.7 21H22l-7.905-10.34L21.543 3z"/>
+    </svg>
+</a>
+
+
 
             </div>
 
@@ -365,22 +411,39 @@
 
             // Initial load: ensure #تواصل-معنا is active
             showChannel('contact-channel');
+
+            
+            // === NEW SCRIPT FOR MAINTENANCE MESSAGE ===
+            const joinDiscordBtn = document.getElementById('join-discord-btn');
+            const maintenanceMessage = document.getElementById('maintenance-message');
+
+            joinDiscordBtn.addEventListener('click', (e) => {
+                // Prevent the link from opening
+                e.preventDefault();
+                
+                // Show the message with an animation
+                if (maintenanceMessage.classList.contains('hidden')) {
+                    maintenanceMessage.classList.remove('hidden');
+                    maintenanceMessage.classList.add('animate-message');
+                }
+            });
         });
+
 
 // منع كليك يمين
 document.addEventListener('contextmenu', e => e.preventDefault());
 
 // منع اختصارات فحص العنصر
 document.addEventListener('keydown', function(e) {
-  if (
-    e.key === 'F12' ||                        // F12
-    (e.ctrlKey && e.shiftKey && e.key === 'I') || // Ctrl+Shift+I
-    (e.ctrlKey && e.shiftKey && e.key === 'C') || // Ctrl+Shift+C
-    (e.ctrlKey && e.shiftKey && e.key === 'J') || // Ctrl+Shift+J
-    (e.ctrlKey && e.key === 'U')             // Ctrl+U (عرض الكود)
-  ) {
-    e.preventDefault();
-  }
+    if (
+        e.key === 'F12' ||               // F12
+        (e.ctrlKey && e.shiftKey && e.key === 'I') || // Ctrl+Shift+I
+        (e.ctrlKey && e.shiftKey && e.key === 'C') || // Ctrl+Shift+C
+        (e.ctrlKey && e.shiftKey && e.key === 'J') || // Ctrl+Shift+J
+        (e.ctrlKey && e.key === 'U')          // Ctrl+U (عرض الكود)
+    ) {
+        e.preventDefault();
+    }
 });
 
 // تعطيل السحب أو التحديد
@@ -389,21 +452,31 @@ document.addEventListener('dragstart', e => e.preventDefault());
 
 // تعطيل console.log والتفتيش من الكونسول
 (function() {
-  const blocked = ['log', 'warn', 'debug', 'info', 'error'];
-  blocked.forEach(method => {
-    console[method] = function() {};
-  });
+    const blocked = ['log', 'warn', 'debug', 'info', 'error'];
+    blocked.forEach(method => {
+        console[method] = function() {};
+    });
 })();
 
 // محاولة منع فتح أدوات المطور
 setInterval(() => {
-  const before = new Date();
-  debugger;
-  const after = new Date();
-  if (after - before > 100) {
-    window.location.href = "about:blank";
-  }
+    const before = new Date();
+    debugger;
+    const after = new Date();
+    if (after - before > 100) {
+        window.location.href = "about:blank";
+    }
 }, 1000);
+
+// إضافة ظل عند التمرير للهيدر
+window.addEventListener('scroll', () => {
+    const header = document.getElementById('main-header');
+    if (window.scrollY > 10) {
+        header.classList.add('shadow-lg');
+    } else {
+        header.classList.remove('shadow-lg');
+    }
+});
     </script>
 
 </body>
